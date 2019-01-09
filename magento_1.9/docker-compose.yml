@@ -1,0 +1,26 @@
+version: '2.1'
+services:
+ php:
+   build: ./php/
+   environment:
+     XDEBUG_CONFIG: remote_host=${REMOTE_HOST}
+   expose: 
+     - 9000
+   ports:
+     - $HOST_PORT:80
+   links:
+     - mysql
+   volumes:
+     - $PROJECT_ROOT:/var/www/html
+     - ./php/apache2/sites-available:/etc/apache2/sites-available
+  
+ mysql:
+   image: mariadb:latest
+   ports:
+     - ${MYSQL_PORT}:3306
+   volumes:
+     - ./mysql:/var/lib/mysql
+   environment:
+     - "MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}"
+     - "MYSQL_DATABASE=${DB_NAME}"
+     - "MYSQL_USER=${DB_USERNAME}"
