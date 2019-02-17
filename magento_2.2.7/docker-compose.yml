@@ -11,10 +11,14 @@ services:
      - $LIVE_RELOAD:$LIVE_RELOAD
    links:
      - mysql
+     - mailhog
    volumes:
      - $PROJECT_ROOT:/var/www/html
-     - ./php/apache2/sites-available:/etc/apache2/sites-available
-  
+ mailhog:
+   image: mailhog/mailhog
+   ports:
+     - 1025:1025
+     - 8025:8025 
  mysql:
    image: mariadb:latest
    ports:
